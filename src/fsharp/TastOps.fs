@@ -8928,13 +8928,14 @@ let mkUnitDelayLambda (g: TcGlobals) m e =
 let isStaticClass (g: TcGlobals) (x: EntityRef) =
     not x.IsModuleOrNamespace &&
     x.TyparsNoRange.IsEmpty &&
-    (x.IsILTycon && 
-     x.ILTyconRawMetadata.IsSealed &&
-     x.ILTyconRawMetadata.IsAbstract) 
+    ((x.IsILTycon && 
+      x.ILTyconRawMetadata.IsSealed &&
+      x.ILTyconRawMetadata.IsAbstract) 
 #if !NO_EXTENSIONTYPING
-    || (x.IsProvided &&
+     || (x.IsProvided &&
         match x.TypeReprInfo with 
         | TProvidedTypeExtensionPoint info -> info.IsSealed && info.IsAbstract 
         | _ -> false)
 #endif
-    || (not x.IsILTycon && not x.IsProvided && HasFSharpAttribute g g.attrib_AbstractClassAttribute x.Attribs)
+     || (not x.IsILTycon && not x.IsProvided && HasFSharpAttribute g g.attrib_AbstractClassAttribute x.Attribs)) &&
+    not (HasFSharpAttribute g g.attrib_RequireQualifiedAccessAttribute x.Attribs)
