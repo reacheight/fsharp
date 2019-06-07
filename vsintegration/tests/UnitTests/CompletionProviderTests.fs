@@ -449,8 +449,8 @@ let ``Completion for open contains namespaces and static types``() =
     let fileContents = """
 open System.Ma
 """
-    let expected = ["Math"; "Management"]
-    VerifyCompletionListExactly(fileContents, "System.Ma", expected)
+    let expected = ["Management"; "Math"] // both namespace and static type
+    VerifyCompletionList(fileContents, "System.Ma", expected, [])
 
 [<Test>]
 let ``No completion on type name at declaration site``() =
