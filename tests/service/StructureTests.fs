@@ -485,6 +485,15 @@ do!
     =>  [ (2, 0, 4, 18), (2, 3, 4, 18) ]
 
 [<Test>]
+let ``do``() =
+    """
+do
+    printfn "allo"
+    printfn "allo"
+"""
+    => [ (2, 0, 4, 18), (3, 4, 4, 18) ]
+
+[<Test>]
 let ``cexpr yield yield!``() =
     """
 cexpr{
