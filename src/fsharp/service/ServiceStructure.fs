@@ -227,7 +227,6 @@ module Structure =
             | SynExpr.InferredDowncast (e, _)
             | SynExpr.InferredUpcast (e, _)
             | SynExpr.DotGet (e, _, _, _)
-            | SynExpr.Do (e, _)
             | SynExpr.Typed (e, _, _)
             | SynExpr.DotIndexedGet (e, _, _, _) -> 
                 parseExpr e
@@ -244,6 +243,9 @@ module Structure =
                 parseExpr e
             | SynExpr.YieldOrReturnFrom (_, e, r) ->
                 rcheck Scope.YieldOrReturnBang Collapse.Below r r
+                parseExpr e
+            | SynExpr.Do (e, r) ->
+                rcheck Scope.Do Collapse.Below r e.Range
                 parseExpr e
             | SynExpr.DoBang (e, r) ->
                 rcheck Scope.Do Collapse.Below r <| Range.modStart 3 r
